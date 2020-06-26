@@ -9,6 +9,44 @@ mybatis-generator用于生成mybatis的PO类, Mapper接口以及xml文件.
 ##### 该插件暂时只支持mysql数据库, 其他数据库暂时不支持.
 ##### Optional对象需要保证mybatis版本高于3.5
 
+## 使用方式
+clone本项目之后, 执行`mvn clean install`.
+
+```xml
+<plugin>
+    <groupId>org.mybatis.generator</groupId>
+    <artifactId>mybatis-generator-maven-plugin</artifactId>
+    <version>1.3.7</version>
+    <configuration>
+        <configurationFile>${mybatis.generator.location}</configurationFile>
+        <overwrite>true</overwrite>
+        <verbose>true</verbose>
+    </configuration>
+    <dependencies>
+        <dependency> <!-- github上, mybatis-generator的第三方插件扩展. 不需要可以删除 -->
+            <groupId>com.itfsw</groupId>
+            <artifactId>mybatis-generator-plugin</artifactId>
+            <version>1.3.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.3.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.annwyn.mybatis</groupId>
+            <artifactId>mybatis-generator-plugin</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+    </dependencies>
+</plugin>
+```
+
 ## GroupByPlugin
 为example类添加groupByColumns与havingColumns属性. 
 
