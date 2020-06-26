@@ -22,7 +22,8 @@ mybatis-generator用于生成mybatis的PO类, Mapper接口以及xml文件.
     </context>
 </generatorConfiguration>
 ```
-该插件下可以指定参数columnOffset, 用于指定group by标签的生成位置. 默认是-1, 表示在最后第二个.
+该插件下可以指定参数columnOffset, 用于指定group by标签的生成位置. 默认为-1, 表示添加至最后第二个.
+在使用该plugin时需要注意插件添加的顺序, 该顺序会影响xml最终生成结果, 可能会导致group by, order by和limit语句的位置不正确.
 
 ##### 生成结果
 为xml中selectByExample与selectByExampleWithBLOBs方法中添加如下语句
