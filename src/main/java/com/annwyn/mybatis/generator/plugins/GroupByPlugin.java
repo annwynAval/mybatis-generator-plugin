@@ -8,7 +8,6 @@ import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 
 import java.util.List;
-import java.util.Properties;
 
 public class GroupByPlugin extends PluginAdapter {
 
@@ -22,23 +21,22 @@ public class GroupByPlugin extends PluginAdapter {
     private static final String HAVING_METHOD_SET_NAME = "setHavingColumns";
     private static final String HAVING_METHOD_GET_NAME = "setHavingColumns";
 
-    // 此处需要保证group by必须在order by之前, 因此加入偏移量, 在添加XmlElement时指定位置, 一般为负数, 表示最后第N个, 0为最后一个.
+    /**
+     * 此处需要保证group by必须在order by之前, 因此加入偏移量, 在添加XmlElement时指定位置, 一般为负数, 表示最后第N个, 0为最后一个.
+     */
     private int columnOffset = -1;
 
     @Override
     public boolean validate(List<String> warnings) {
-        Properties properties = this.getProperties();
-        warnings.add(properties.toString());
-        if(!properties.containsKey(PROPERTY_COLUMN_NAME))
-            return true;
-
         try {
-            this.columnOffset = Integer.parseInt(properties.getProperty(PROPERTY_COLUMN_NAME));
+            if(this.properties.containsKey(PROPERTY_COLUMN_NAME)) {
+                this.columnOffset = Integer.parseInt(this.properties.getProperty(PROPERTY_COLUMN_NAME));
+            }
             return true;
         } catch(NumberFormatException e) {
             warnings.add(e.getMessage());
-            return false;
         }
+        return false;
     }
 
     @Override
@@ -71,6 +69,7 @@ public class GroupByPlugin extends PluginAdapter {
     public boolean sqlMapSelectByExampleWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
         this.buildGroupElement(element);
         this.buildHavingElement(element);
+
         return super.sqlMapSelectByExampleWithBLOBsElementGenerated(element, introspectedTable);
     }
 
